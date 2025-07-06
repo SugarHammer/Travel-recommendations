@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>旅游导游页</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/common.css" rel="stylesheet" type="text/css" />
+    <style>
+        a{
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/imgtoggle.js"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+            var iTgl=new k_iToggle();
+            iTgl.init({
+                boxId:'box',
+                numId:'num',
+                imgId:'imgs',
+                isAuto:true,
+                aCls:'act',
+                iCls:'imgs1',
+                direct:'crt'
+            });
+            chg(iTgl,'chg');
+            _auto(iTgl,'auto_1');
+
+            //改变方向
+            function chg(o,id){
+                $('#'+id).click(function(){
+                    if(o.direct()=='crt'){
+                        o.direct('lvl');
+                        $(this).text('纵向');
+                    }else{
+                        o.direct('crt');
+                        $(this).text('横向');
+                    }
+                });
+            }
+
+            function _auto(o,id){
+                $('#'+id).click(function(){
+                    if(o.isAuto){
+                        o.isAuto=false;
+                        $(this).text('自动播放已停止');
+                    }else{
+                        o.isAuto=true;
+                        o.auto();
+                        $(this).text('自动播放');
+                    }
+                });
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            var wweya_li =$("div.tab_menu ul li");
+            wweya_li.click(function(){
+                $(this).addClass("selected")
+                    .siblings().removeClass("selected");
+                var index =  wweya_li.index(this);
+                $("div.tab_box > div")
+                    .eq(index).show(100)
+                    .siblings().hide();
+            }).hover(function(){
+                $(this).addClass("hover");
+            },function(){
+                $(this).removeClass("hover");
+            });
+        });
+    </script>
+</head>
+<body class="bj" style="height: 100vh">
+<div class="top_hw clearfix">
+    <div class="top_h clearfix">
+        <div class="top_hl"><span>欢迎来到中国旅游推荐，让你的泰州全程免费自由行！</span> 预定热线：<b>0571-12345678</b></div>
+        <div class="top_hr"><a th:if="${session.userName==null}" th:href="@{/register}">会员注册</a>  |  <span th:if="${session.userName!=null}" th:text="'欢迎你，'+${session.userName}"></span><a th:if="${session.userName==null}" th:href="@{/goLogin}">登录</a>  |  <a th:if="${session.userName!=null}" th:href="@{/goLogout}">退出</a></div>
+    </div>
+</div>
+
+<div class="mainNav clearfix">
+    <ul class="Nav_ul">
+        <li><a th:href="@{/index}">首页</a><img src="images/nav_line.jpg"/></li>
+        <li  ><a th:href="@{/travelRoute}">旅游路线</a><img src="images/nav_line.jpg"/></li>
+        <li><a th:href="@{/travelSpot}">旅游景点</a><img src="images/nav_line.jpg"/></li>
+        <li><a th:href="@{/hotelAccommodation}">餐饮住宿</a><img src="images/nav_line.jpg"/></li>
+        <li ><a th:href="@{/car}">旅游车票</a><img src="images/nav_line.jpg"/></li>
+        <li  class="cur"><a th:href="@{/insurance}">旅游导游</a><img src="images/nav_line.jpg"/></li>
+        <li ><a th:href="@{/strategy}">旅游攻略</a><img src="images/nav_line.jpg"/></li>
+        <li><a th:href="@{/attention}">注意事项</a><img src="images/nav_line.jpg"/></li>
+        <li th:if="${session.userName!=null}"><a th:href="@{/userCenter}">会员中心</a><img src="images/nav_line.jpg"/></li>
+    </ul>
+</div>
+<div class="b_wrap">
+    <div class="current"><span>当前所在地：</span><a th:href="@{/index}">首页</a> >> <a th:href="@{/insurance}">旅游导游</a> </div>
+
+    <div class="clumn_w clearfix">
+        <div class="clumn_l">
+            <div class="clumn">
+                <div class="clumn_tit t01">旅游导游</div>
+                <div class="clumn_con">
+
+
+                    <div class="cln_w">
+                        <p>导游合作公司</p>
+                        <div class="cln_c clearfix">
+                            <a href="https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E9%9D%92%E5%B9%B4%E6%97%85%E8%A1%8C%E7%A4%BE%E6%80%BB%E7%A4%BE/12028034?fromModule=search-result_lemma" target="_blank">青旅总社</a>
+                            <a href="https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BA%B7%E8%BE%89%E6%97%85%E6%B8%B8%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8?fromtitle=%E5%BA%B7%E8%BE%89%E6%97%85%E8%A1%8C%E7%A4%BE&fromid=5557484&fromModule=lemma_search-box" target="_blank">康辉旅行社</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="clumn_r01">
+            <div class="js_box">
+                <div class="js_tit clearfix">
+                    <div class="xs_w">显示方式：<a class="tw_a" href="#">图文</a></div>
+                    <form id="pageForm" name="pageForm" action="/insurance" method="post">
+                        <input type="hidden" id="count" name="count" th:value="${pageParam.count}"/>
+                        <input type="hidden" id="pageNumber" name="pageNumber" th:value="${pageParam.pageNumber}"/>
+                        <input type="hidden" id="size" name="size" th:value="${pageParam.size}"/>
+                        <input type="hidden" id="pageSize" name="pageSize" th:value="${pageParam.pageSize}"/>
+                        <div class="fy_w"><a href="#" th:text="${pageParam.pageNumber}+'/'+${pageParam.size}+'页'"> </a>
+                            <a class="previousPage">上一页</a>
+                            <a class="toPageOne">首页</a>
+                            <a class="nextPage">下一页</a>
+                            <a class="toPageLast">尾页</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="js_wrap claerdix">
+                    <div class="js_con clearfix" th:each="var,iterStat: ${pageData}">
+                        <div class="js_l"><a th:href="@{/insurancePortalView(id=${var.id})}"><img th:src="${var.imgUrl}" style="    height: 75px;"/></a></div>
+                        <div class="js_c">
+                            <p><b><a th:href="@{/insurancePortalView(id=${var.id})}" th:text="${var.title}"></a></b></p>
+                            <!-- <p><a class="js_pl" href="#"><span>0</span>条评论</a> <a class="js_gm" href="#"><span>102</span>人购买</a></p>-->
+                            <p th:if="${var.insuranceCompany==0}">所属公司：青旅总社</p>
+                            <p th:if="${var.insuranceCompany==1}">所属公司：康辉旅行社</p>
+                            <p th:if="${var.type==0}">导游类型：领队</p>
+                            <p th:if="${var.type==1}">导游类型：全程陪同</p>
+                            <p th:if="${var.type==2}">导游类型：地方陪同</p>
+                            <p th:if="${var.type==3}">导游类型：景区导游</p>
+                        </div>
+                        <div class="js_r">
+                            <p><span class="fn_o">￥</span><b th:text="${var.price}"></b>起</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".previousPage").click(function(){
+        if(parseInt($("#pageNumber").val())==1){
+            $("#pageNumber").val(1);
+            return;
+        }else{
+            $("#pageNumber").val(parseInt($("#pageNumber").val())-1);
+            $("#pageForm").submit();
+        }
+    })
+
+    $(".nextPage").click(function(){
+        if(parseInt($("#pageNumber").val())==parseInt($("#size").val())){
+            $("#pageNumber").val(parseInt($("#size").val()));
+            /* alert("xia yi ye1 ");*/
+            return;
+        }else{
+            $("#pageNumber").val(parseInt($("#pageNumber").val())+1);
+            /*alert("xia yi ye2 ");*/
+            $("#pageForm").submit();
+        }
+    })
+
+    $(".toPageOne").click(function(){
+        $("#pageNumber").val(1);
+        $("#pageForm").submit();
+    })
+
+    $(".toPageLast").click(function(){
+        $("#pageNumber").val(parseInt($("#size").val()));
+        $("#pageForm").submit();
+    })
+
+</script>
+</body>
+</html>
